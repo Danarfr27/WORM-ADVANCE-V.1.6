@@ -56,20 +56,26 @@ const ChatInterface = () => {
     setMessages((prev) => [...prev, userMessage]);
     setIsTyping(true);
 
-    // Simulate API call to /api/chat
+    // Call /api/chat with proper Gemini API format
     try {
+      // Build conversation history for Gemini
+      const conversationHistory = messages.map((m) => ({
+        role: m.isUser ? 'user' : 'model',
+        parts: [{ text: m.content }],
+      }));
+      
+      // Add current user message
+      conversationHistory.push({
+        role: 'user',
+        parts: [{ text: content }],
+      });
+
       const response = await fetch('/api/chat', {
         method: 'POST',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          contents: [
-            ...messages.map((m) => ({
-              role: m.isUser ? 'user' : 'model',
-              parts: [{ text: m.content }],
-            })),
-            { role: 'user', parts: [{ text: content }] },
-          ],
+          contents: conversationHistory,
         }),
       });
 
@@ -87,17 +93,15 @@ const ChatInterface = () => {
         aiResponse = data.candidates[0].content.parts[0].text;
       }
 
-      // Add AI message after a small delay for realism
-      setTimeout(() => {
-        setIsTyping(false);
-        const aiMessage: Message = {
-          id: (Date.now() + 1).toString(),
-          content: aiResponse,
-          isUser: false,
-          timestamp: generateTimestamp(),
-        };
-        setMessages((prev) => [...prev, aiMessage]);
-      }, 1000);
+      // Add AI message immediately
+      setIsTyping(false);
+      const aiMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        content: aiResponse,
+        isUser: false,
+        timestamp: generateTimestamp(),
+      };
+      setMessages((prev) => [...prev, aiMessage]);
     } catch (error) {
       console.error('Error:', error);
       setIsTyping(false);
