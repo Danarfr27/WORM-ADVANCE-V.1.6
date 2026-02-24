@@ -16,10 +16,16 @@ export default async function handler(req, res) {
   // 3. Konfigurasi Kunci & Model
   // Ambil semua key dari .env dan pisahkan berdasarkan koma
   const keysString = process.env.GEMINI_API_KEYS || process.env.GENERATIVE_API_KEY || '';
-  const apiKeys = keysString.split(',').filter(k => k.trim().length > 0);
+  const apiKeys = keysString
+    .split(',')
+    .map(k => k.trim())
+    .filter(k => k.length > 0);
   
-  // Default ke 1.5-flash jika env tidak diisi (karena 2.5 belum rilis publik saat ini)
+  // Model konfigurasi
   const GEMINI_MODEL = process.env.GEMINI_MODEL || 'gemini-2.5-flash';
+  
+  // Ambil system prompt/persona dari environment
+  const SYSTEM_PROMPT = process.env.SYSTEM_PROMPT || '';
 
   if (apiKeys.length === 0) {
     console.error('Missing GEMINI_API_KEYS environment variable');
@@ -39,10 +45,30 @@ export default async function handler(req, res) {
     try {
       // console.log(`[Attempt] Using Key Index: ${i} for Model: ${GEMINI_MODEL}`); // Uncomment untuk debug
 
+      const requestBody = {
+        contents,
+        system_instruction: SYSTEM_PROMPT ? { parts: { text: SYSTEM_PROMPT } } : undefined,
+        generation_config: {
+          temperature: 0.7,
+          top_p: 0.95,
+          top_k: 40,
+          max_output_tokens: 8192
+        },
+        safety_settings: []
+      };
+      
+      // Remove undefined fields
+      if (!requestBody.system_instruction) {
+        delete requestBody.system_instruction;
+      }
+
       const response = await fetch(externalApiUrl, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ contents })
+        headers: { 
+          'Content-Type': 'application/json',
+          'User-Agent': 'KIMIWORM-AI/1.0'
+        },
+        body: JSON.stringify(requestBody)
       });
 
       // Jika Sukses (200 OK)
