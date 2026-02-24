@@ -59,7 +59,7 @@ export default async function handler(req, res) {
   // Set HttpOnly cookie
   const maxAge = 60 * 60 * 8; // 8 hours
   const secure = process.env.NODE_ENV === 'production' ? 'Secure; ' : '';
-  res.setHeader('Set-Cookie', `ai_session=${token}; HttpOnly; Path=/; Max-Age=${maxAge}; ${secure}SameSite=Lax`);
+  res.setHeader('Set-Cookie', `ai_session=${token}; Path=/; Max-Age=${maxAge}; ${secure}SameSite=Lax`);
 
   return res.status(200).json({ ok: true, role });
 }
