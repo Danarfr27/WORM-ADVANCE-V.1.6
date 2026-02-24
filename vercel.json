@@ -19,8 +19,8 @@
       "destination": "/index.html"
     },
     {
-      "source": "/(.*)",
-      "destination": "/index.html"
+      "source": "/sw.js",
+      "destination": "/sw.js"
     }
   ]
 }
