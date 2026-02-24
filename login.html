@@ -530,6 +530,19 @@
 
   <script src="/js/auth.js"></script>
   <script>
+    // Check if already authenticated, if so redirect to index
+    (async function() {
+      try {
+        const isAuth = await window.auth.isAuthenticated();
+        if (isAuth) {
+          window.location.href = '/index';
+        }
+      } catch (e) {
+        console.error('Auth check failed:', e);
+      }
+    })();
+  </script>
+  <script>
     (function () {
       const msgEl = document.getElementById('msg');
       const loginBtn = document.getElementById('loginBtn');
