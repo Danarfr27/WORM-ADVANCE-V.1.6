@@ -575,7 +575,7 @@
           const result = await auth.login(username, password);
           if (result && result.ok) {
             showMessage('Authentication successful. Redirecting...', 'success');
-            setTimeout(() => { window.location.href = '/'; }, 700);
+            setTimeout(() => { window.location.href = '/index'; }, 700);
           } else {
             throw result || new Error('Login failed');
           }
