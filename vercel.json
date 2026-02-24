@@ -3,33 +3,27 @@
   "routes": [
     {
       "src": "/api/chat",
-      "dest": "/api/chat.js",
-      "methods": ["POST"]
+      "dest": "/api/chat.js"
     },
     {
       "src": "/api/login",
-      "dest": "/api/login.js",
-      "methods": ["POST"]
+      "dest": "/api/login.js"
     },
     {
       "src": "/api/logout",
-      "dest": "/api/logout.js",
-      "methods": ["POST"]
+      "dest": "/api/logout.js"
     },
     {
       "src": "/api/session",
-      "dest": "/api/session.js",
-      "methods": ["GET"]
+      "dest": "/api/session.js"
     },
     {
       "src": "/api/send_email",
-      "dest": "/api/send_email.js",
-      "methods": ["POST"]
+      "dest": "/api/send_email.js"
     },
     {
       "src": "/api/generate_image",
-      "dest": "/api/generate_image.js",
-      "methods": ["POST"]
+      "dest": "/api/generate_image.js"
     },
     {
       "src": "/login",
@@ -44,7 +38,7 @@
     }
   ],
   "functions": {
-    "api/*.js": {
+    "api/**": {
       "maxDuration": 30
     }
   }
