@@ -69,3 +69,4 @@
 })(window);
 
 <script src="/public/js/auth.js"></script>
+ 
