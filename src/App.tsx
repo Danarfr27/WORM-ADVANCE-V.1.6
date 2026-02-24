@@ -20,8 +20,15 @@ function App() {
       try {
         const res = await fetch('/api/session');
         if (res.ok) {
-          const d = await res.json();
-          if (!d || !d.authenticated) {
+          // Check content type to handle cases where API route is broken and returns HTML
+          const contentType = res.headers.get("content-type");
+          if (contentType && contentType.includes("application/json")) {
+            const d = await res.json();
+            if (!d || !d.authenticated) {
+              window.location.href = '/login';
+              return;
+            }
+          } else {
             window.location.href = '/login';
             return;
           }
@@ -29,11 +36,11 @@ function App() {
           window.location.href = '/login';
           return;
         }
+
+        // If we get here, authenticated successfully
+        setAuthChecked(true);
       } catch (e) {
         window.location.href = '/login';
-        return;
-      } finally {
-        setAuthChecked(true);
       }
     })();
 
@@ -91,7 +98,7 @@ function App() {
               {/* Logo */}
               <div className="relative">
                 <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-[#00ff88]/20 to-[#00f0ff]/10 border border-[#00ff88]/40 flex items-center justify-center">
-                  <span 
+                  <span
                     className="text-xl font-bold text-[#00ff88]"
                     style={{ fontFamily: 'Orbitron' }}
                   >
@@ -106,7 +113,7 @@ function App() {
               </div>
 
               <div>
-                <h1 
+                <h1
                   className="text-xl font-bold text-[#00ff88] glitch"
                   data-text="WORM AI"
                   style={{ fontFamily: 'Orbitron' }}
@@ -167,11 +174,11 @@ function App() {
       </motion.button>
 
       {/* Mobile Sidebar */}
-      <div 
-        id="mobile-sidebar" 
+      <div
+        id="mobile-sidebar"
         className="hidden lg:hidden fixed inset-0 z-40 bg-black/90 p-4 overflow-y-auto"
       >
-        <button 
+        <button
           className="absolute top-4 right-4 text-gray-400 hover:text-white"
           onClick={() => {
             document.getElementById('mobile-sidebar')?.classList.add('hidden');
