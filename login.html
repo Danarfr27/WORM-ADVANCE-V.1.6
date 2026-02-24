@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Login - WORM AI</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --neon-primary: #00ff88;
+      --neon-secondary: #00f0ff;
+      --neon-danger: #ff0040;
+      --bg-dark: #050505;
+      --bg-dark-secondary: #0a0a0a;
+      --bg-card: rgba(15, 15, 15, 0.92);
+      --text-primary: #e0e0e0;
+      --text-secondary: #888888;
+      --border-glow: rgba(0, 255, 136, 0.3);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: 'Share Tech Mono', monospace;
+    }
+
+    body {
+      background: linear-gradient(180deg, var(--bg-dark) 0%, var(--bg-dark-secondary) 100%);
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Grid Background */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: 
+        linear-gradient(rgba(0, 255, 136, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 255, 136, 0.03) 1px, transparent 1px);
+      background-size: 50px 50px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Scanlines */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0.1) 0px,
+        rgba(0, 0, 0, 0.1) 1px,
+        transparent 1px,
+        transparent 2px
+      );
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.3;
+    }
+
+    /* Center card */
+    .card-wrap {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      max-width: 980px;
+      width: 100%;
+    }
+
+    .brand {
+      min-width: 260px;
+      max-width: 320px;
+      background: linear-gradient(180deg, rgba(0, 255, 136, 0.05), rgba(0, 255, 136, 0.02));
+      border: 1px solid rgba(0, 255, 136, 0.2);
+      border-radius: 16px;
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      align-items: center;
+      text-align: center;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6), 0 0 30px rgba(0, 255, 136, 0.1);
+      backdrop-filter: blur(8px);
+    }
+
+    .logo {
+      width: 92px;
+      height: 92px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, rgba(0, 255, 136, 0.3), rgba(0, 240, 255, 0.1));
+      box-shadow: 0 6px 30px rgba(0, 255, 136, 0.2);
+      border: 1px solid rgba(0, 255, 136, 0.4);
+    }
+
+    .logo span {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 36px;
+      font-weight: 700;
+      color: var(--neon-primary);
+      text-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+    }
+
+    .brand h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 20px;
+      margin: 0 0 2px 0;
+      letter-spacing: -0.6px;
+      color: var(--neon-primary);
+    }
+
+    .brand p {
+      margin: 0;
+      color: var(--text-secondary);
+      font-size: 13px;
+    }
+
+    /* Login form */
+    .card {
+      flex: 1;
+      max-width: 520px;
+      background: linear-gradient(180deg, rgba(0, 255, 136, 0.05), rgba(0, 255, 136, 0.02));
+      border-radius: 16px;
+      padding: 26px;
+      border: 1px solid rgba(0, 255, 136, 0.2);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6), 0 0 30px rgba(0, 255, 136, 0.1);
+      backdrop-filter: blur(10px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      inset: -2px;
+      background: linear-gradient(90deg, rgba(0, 255, 136, 0.1), rgba(0, 240, 255, 0.05));
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .form-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .form-title h2 {
+      margin: 0;
+      font-size: 18px;
+      font-family: 'Orbitron', sans-serif;
+      color: var(--neon-primary);
+    }
+
+    .form-title .subtitle {
+      color: var(--text-secondary);
+      font-size: 13px;
+    }
+
+    .input {
+      margin-top: 12px;
+    }
+
+    .input label {
+      display: block;
+      color: var(--text-secondary);
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+
+    .field {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(0, 0, 0, 0.5);
+      border-radius: 10px;
+      padding: 10px 12px;
+      border: 1px solid rgba(0, 255, 136, 0.2);
+      transition: all 0.3s ease;
+    }
+
+    .field:focus-within {
+      border-color: var(--neon-primary);
+      box-shadow: 0 0 15px rgba(0, 255, 136, 0.2);
+    }
+
+    .field input {
+      flex: 1;
+      background: transparent;
+      border: 0;
+      color: inherit;
+      font-size: 15px;
+      padding: 8px 4px;
+      font-family: 'Share Tech Mono', monospace;
+      outline: none;
+    }
+
+    .field input::placeholder {
+      color: var(--text-secondary);
+    }
+
+    .field svg {
+      opacity: 0.9;
+      width: 18px;
+      height: 18px;
+      color: var(--neon-primary);
+    }
+
+    .actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 14px;
+      gap: 12px;
+    }
+
+    .remember {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-secondary);
+      font-size: 13px;
+    }
+
+    .btn {
+      appearance: none;
+      border: 0;
+      padding: 10px 14px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, rgba(0, 255, 136, 0.2), rgba(0, 255, 136, 0.1));
+      color: var(--neon-primary);
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      justify-content: center;
+      min-width: 120px;
+      box-shadow: 0 8px 24px rgba(0, 255, 136, 0.15);
+      transition: all 0.3s ease;
+      font-family: 'Share Tech Mono', monospace;
+      border: 1px solid rgba(0, 255, 136, 0.3);
+    }
+
+    .btn:hover {
+      background: linear-gradient(135deg, rgba(0, 255, 136, 0.3), rgba(0, 255, 136, 0.15));
+      box-shadow: 0 8px 24px rgba(0, 255, 136, 0.3);
+      transform: translateY(-1px);
+    }
+
+    .btn:active {
+      transform: translateY(1px);
+    }
+
+    .btn.ghost {
+      background: transparent;
+      color: var(--text-secondary);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: none;
+    }
+
+    .btn.ghost:hover {
+      border-color: var(--neon-primary);
+      color: var(--neon-primary);
+    }
+
+    .msg {
+      margin-top: 12px;
+      font-size: 13px;
+      color: var(--neon-danger);
+      min-height: 18px;
+    }
+
+    .signup-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .signup-row .note {
+      font-weight: 700;
+      color: #fff;
+      font-size: 14px;
+    }
+
+    .signup-row .note small {
+      font-weight: 700;
+      color: var(--text-secondary);
+      font-size: 13px;
+    }
+
+    /* Status indicator */
+    .status-indicator {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 16px;
+      padding: 8px 12px;
+      background: rgba(0, 255, 136, 0.1);
+      border-radius: 8px;
+      border: 1px solid rgba(0, 255, 136, 0.2);
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--neon-primary);
+      box-shadow: 0 0 10px var(--neon-primary);
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    .status-text {
+      font-size: 12px;
+      color: var(--neon-primary);
+    }
+
+    @media(max-width:880px) {
+      .card-wrap {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .brand {
+        max-width: none;
+        flex-direction: row;
+        justify-content: flex-start;
+        gap: 16px;
+        padding: 18px;
+      }
+
+      .logo {
+        width: 68px;
+        height: 68px;
+        border-radius: 12px;
+      }
+
+      .brand h1 {
+        font-size: 16px;
+      }
+
+      .card {
+        padding: 18px;
+      }
+    }
+
+    @media(max-width:480px) {
+      .card {
+        padding: 16px;
+      }
+
+      .field input {
+        font-size: 14px;
+      }
+
+      .btn {
+        min-width: 100px;
+        padding: 10px;
+      }
+
+      .signup-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+
+      .signup-row .btn {
+        width: 100%;
+      }
+    }
+
+    /* Error shake */
+    .shake {
+      animation: shake .5s ease;
+    }
+
+    @keyframes shake {
+      10%, 90% { transform: translateX(-1px); }
+      20%, 80% { transform: translateX(2px); }
+      30%, 50%, 70% { transform: translateX(-4px); }
+      40%, 60% { transform: translateX(4px); }
+    }
+
+    .spinner {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      border: 2px solid rgba(0, 255, 136, 0.2);
+      border-top-color: var(--neon-primary);
+      animation: spin .8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Corner decorations */
+    .corner-decoration {
+      position: fixed;
+      width: 100px;
+      height: 100px;
+      border: 2px solid rgba(0, 255, 136, 0.2);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .corner-decoration.top-left {
+      top: 20px;
+      left: 20px;
+      border-right: none;
+      border-bottom: none;
+    }
+
+    .corner-decoration.top-right {
+      top: 20px;
+      right: 20px;
+      border-left: none;
+      border-bottom: none;
+    }
+
+    .corner-decoration.bottom-left {
+      bottom: 20px;
+      left: 20px;
+      border-right: none;
+      border-top: none;
+    }
+
+    .corner-decoration.bottom-right {
+      bottom: 20px;
+      right: 20px;
+      border-left: none;
+      border-top: none;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="corner-decoration top-left"></div>
+  <div class="corner-decoration top-right"></div>
+  <div class="corner-decoration bottom-left"></div>
+  <div class="corner-decoration bottom-right"></div>
+
+  <main class="card-wrap">
+    <aside class="brand" aria-hidden="true">
+      <div class="logo" aria-hidden="true">
+        <span>W</span>
+      </div>
+      <div>
+        <h1>WORM AI</h1>
+        <p>Cyber Intelligence Interface</p>
+      </div>
+    </aside>
+
+    <section class="card" role="region" aria-label="Login form">
+      <div class="status-indicator">
+        <div class="status-dot"></div>
+        <span class="status-text">SYSTEM SECURE - ENCRYPTED CONNECTION</span>
+      </div>
+
+      <div class="form-title">
+        <h2>Authentication Required</h2>
+        <div class="subtitle">Secure Access</div>
+      </div>
+
+      <div class="input">
+        <label for="username">Username</label>
+        <div class="field">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden>
+            <path d="M12 12c2.7 0 4.5-1.8 4.5-4.5S14.7 3 12 3 7.5 4.8 7.5 7.5 9.3 12 12 12z"
+              stroke="currentColor" stroke-width="0.8" />
+            <path d="M4.5 20.5c0-3.1 4.4-4.5 7.5-4.5s7.5 1.4 7.5 4.5" stroke="currentColor" stroke-width="0.8"
+              stroke-linecap="round" />
+          </svg>
+          <input id="username" autocomplete="username" placeholder="Enter username" />
+        </div>
+      </div>
+
+      <div class="input">
+        <label for="password">Password</label>
+        <div class="field">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden>
+            <rect x="4" y="10" width="16" height="10" rx="2" stroke="currentColor" stroke-width="0.8" />
+            <path d="M8 10V8a4 4 0 118 0v2" stroke="currentColor" stroke-width="0.8" stroke-linecap="round" />
+          </svg>
+          <input id="password" type="password" autocomplete="current-password" placeholder="Enter password" />
+          <button id="togglePwd" class="btn ghost" style="min-width:auto;padding:6px 8px;font-size:12px">Show</button>
+        </div>
+      </div>
+
+      <div class="actions">
+        <label class="remember"><input id="remember" type="checkbox" /> Remember me</label>
+        <div style="display:flex;gap:8px;align-items:center">
+          <button id="loginBtn" class="btn">Login</button>
+        </div>
+      </div>
+
+      <div class="signup-row">
+        <div class="note"><strong>Need Access?</strong> <small>Contact administrator</small></div>
+        <a id="contactAdminBtn" class="btn ghost"
+          href="https://wa.me/6282121791193?text=Request%20WormAI%20Access" target="_blank"
+          rel="noopener noreferrer">Contact</a>
+      </div>
+
+      <div class="msg" id="msg"></div>
+    </section>
+  </main>
+
+  <script src="/js/auth.js"></script>
+  <script>
+    (function () {
+      const msgEl = document.getElementById('msg');
+      const loginBtn = document.getElementById('loginBtn');
+      const togglePwd = document.getElementById('togglePwd');
+      const pwdInput = document.getElementById('password');
+      const userInput = document.getElementById('username');
+      const card = document.querySelector('.card');
+
+      function showMessage(text, type) {
+        msgEl.textContent = text || '';
+        if (!text) { msgEl.style.opacity = 0; return }
+        msgEl.style.opacity = 1;
+        msgEl.style.color = type === 'error' ? '#ff0040' : (type === 'success' ? '#00ff88' : '#e0e0e0');
+      }
+
+      togglePwd.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (pwdInput.type === 'password') {
+          pwdInput.type = 'text';
+          togglePwd.textContent = 'Hide';
+        } else {
+          pwdInput.type = 'password';
+          togglePwd.textContent = 'Show';
+        }
+        pwdInput.focus();
+      });
+
+      async function doLogin(username, password) {
+        if (!username || !password) {
+          card.classList.remove('shake');
+          void card.offsetWidth;
+          card.classList.add('shake');
+          showMessage('Enter username and password.', 'error');
+          return;
+        }
+
+        loginBtn.disabled = true;
+        const old = loginBtn.innerHTML;
+        loginBtn.innerHTML = '<span class="spinner" aria-hidden="true"></span> Authenticating...';
+        showMessage('', '');
+
+        try {
+          const result = await auth.login(username, password);
+          if (result && result.ok) {
+            showMessage('Authentication successful. Redirecting...', 'success');
+            setTimeout(() => { window.location.href = '/'; }, 700);
+          } else {
+            throw result || new Error('Login failed');
+          }
+        } catch (err) {
+          console.error(err);
+          card.classList.remove('shake'); void card.offsetWidth; card.classList.add('shake');
+          const text = err && err.message ? err.message : 'Invalid credentials.';
+          showMessage(text, 'error');
+        } finally {
+          loginBtn.disabled = false;
+          loginBtn.innerHTML = old;
+        }
+      }
+
+      loginBtn.addEventListener('click', () => doLogin(userInput.value.trim(), pwdInput.value));
+
+      [userInput, pwdInput].forEach(el => el.addEventListener('keydown', (e) => { 
+        if (e.key === 'Enter') { e.preventDefault(); doLogin(userInput.value.trim(), pwdInput.value); } 
+      }));
+
+      try {
+        const stored = localStorage.getItem('worm_last_user');
+        if (stored) userInput.value = stored;
+      } catch (e) { }
+
+      const originalAuthLogin = auth && auth.login ? auth.login.bind(auth) : null;
+      if (originalAuthLogin) {
+        auth.login = async function (u, p) {
+          const res = await originalAuthLogin(u, p);
+          if (res && res.ok) {
+            try { 
+              if (document.getElementById('remember').checked) localStorage.setItem('worm_last_user', u); 
+              else localStorage.removeItem('worm_last_user'); 
+            } catch (e) { }
+          }
+          return res;
+        }
+      }
+
+      requestAnimationFrame(() => { document.querySelector('.card-wrap').style.opacity = 1; });
+    })();
+  </script>
+</body>
+</html>

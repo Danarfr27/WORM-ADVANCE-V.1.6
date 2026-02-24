@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="WORM AI - Cyber Intelligence Interface. Advanced AI assistant for cyber operations and intelligence gathering." />
+    <meta name="theme-color" content="#050505" />
+    
+    <!-- Preconnect to Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    
+    <!-- Fonts -->
+    <link 
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Share+Tech+Mono&display=swap" 
+      rel="stylesheet" 
+    />
+    
+    <title>WORM AI - Cyber Intelligence Interface</title>
+    
+    <style>
+      /* Critical CSS for loading state */
+      body {
+        margin: 0;
+        padding: 0;
+        background: #050505;
+        color: #e0e0e0;
+        font-family: 'Share Tech Mono', monospace;
+      }
+      
+      #root {
+        min-height: 100vh;
+      }
+      
+      /* Loading spinner */
+      .loading-spinner {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 60px;
+        height: 60px;
+      }
+      
+      .loading-spinner::before {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: #00ff88;
+        clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+        animation: spin 2s linear infinite;
+      }
+      
+      .loading-spinner::after {
+        content: '';
+        position: absolute;
+        top: 10%;
+        left: 10%;
+        width: 80%;
+        height: 80%;
+        background: #050505;
+        clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+      }
+      
+      @keyframes spin {
+        to { transform: rotate(360deg); }
+      }
+    </style>
+    <script type="module" crossorigin src="./assets/main-BURkuPa8.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/main-hj5cgeNY.css">
+  </head>
+  <body>
+    <div id="root">
+      <!-- Fallback loading state -->
+      <div class="loading-spinner"></div>
+    </div>
+  </body>
+</html>
