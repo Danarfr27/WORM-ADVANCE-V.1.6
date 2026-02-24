@@ -57,9 +57,11 @@ function App() {
     setShowIntro(false);
   };
 
+  // If we haven't confirmed auth or haven't finished preloading, show the loading hexagon spinner
+  // Crucially, if auth checking fails, it will redirect WITHOUT ever setting authChecked = true.
   if (!isLoaded || !authChecked) {
     return (
-      <div className="fixed inset-0 bg-[#050505] flex items-center justify-center">
+      <div className="fixed inset-0 bg-[#050505] flex items-center justify-center z-[9999]">
         <div className="hexagon-spinner" />
       </div>
     );
