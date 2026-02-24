@@ -1,5 +1,3 @@
-<script src="/public/js/auth-guard.js"></script>
-
 // Redirect to login if not authenticated
 (function () {
 
