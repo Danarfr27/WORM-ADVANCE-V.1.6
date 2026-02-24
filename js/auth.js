@@ -33,7 +33,7 @@
       try { deviceId = localStorage.getItem('worm_device_id'); } catch (e) {}
       await fetch('/api/logout', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ deviceId }) });
     } catch (e) {}
-    try { window.location.href = '/login'; } catch(e){}
+    try { window.location.href = '/login.html'; } catch(e){}
   }
 
   async function isAuthenticated() {
@@ -67,6 +67,3 @@
   });
 
 })(window);
-
-<script src="/public/js/auth.js"></script>
- 
