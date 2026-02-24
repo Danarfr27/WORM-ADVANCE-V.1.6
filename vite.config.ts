@@ -8,14 +8,10 @@ import { viteStaticCopy } from 'vite-plugin-static-copy'
 export default defineConfig({
   base: './',
   plugins: [
-    inspectAttr(), 
+    inspectAttr(),
     react(),
     viteStaticCopy({
       targets: [
-        {
-          src: 'api',
-          dest: '.'
-        },
         {
           src: 'login.html',
           dest: '.'
