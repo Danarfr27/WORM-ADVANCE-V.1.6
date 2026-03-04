@@ -8,6 +8,7 @@ import CustomCursor from './components/CustomCursor';
 import GlitchIntro from './components/GlitchIntro';
 import ChatInterface from './components/chat/ChatInterface';
 import CyberSidebar from './components/sidebar/CyberSidebar';
+import './App.css';
 
 function App() {
   const [authChecked, setAuthChecked] = useState(false);
@@ -25,22 +26,22 @@ function App() {
           if (contentType && contentType.includes("application/json")) {
             const d = await res.json();
             if (!d || !d.authenticated) {
-              window.location.href = '/login';
+              window.location.href = 'login.html';
               return;
             }
           } else {
-            window.location.href = '/login';
+            window.location.href = 'login.html';
             return;
           }
         } else {
-          window.location.href = '/login';
+          window.location.href = 'login.html';
           return;
         }
 
         // If we get here, authenticated successfully
         setAuthChecked(true);
       } catch (e) {
-        window.location.href = '/login';
+        window.location.href = 'login.html';
       }
     })();
 
