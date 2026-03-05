@@ -33,15 +33,7 @@
       try { deviceId = localStorage.getItem('worm_device_id'); } catch (e) {}
       await fetch('/api/logout', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ deviceId }) });
     } catch (e) {}
-    // Hapus semua data autentikasi di client
-    try {
-      localStorage.removeItem('worm_device_id');
-      localStorage.removeItem('worm_last_user');
-      sessionStorage.clear();
-      // Hapus cookie ai_session (client-side, best effort)
-      document.cookie = 'ai_session=; Max-Age=0; path=/;';
-    } catch(e){}
-    try { window.location.href = '/login.html'; } catch(e){}
+    window.location.href = '/login.html';
   }
 
   async function isAuthenticated() {
