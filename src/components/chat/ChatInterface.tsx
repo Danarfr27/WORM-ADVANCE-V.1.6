@@ -142,10 +142,10 @@ const ChatInterface = () => {
   const handleLogout = async () => {
     try {
       const success = await logout();
-      window.location.href = '/login.html';
+      window.location.href = 'https://worm-advance-v-1-6.vercel.app/login';
       // Jika ingin menampilkan pesan error, bisa gunakan toast atau alert sebelum redirect
     } catch (e) {
-      window.location.href = '/login.html';
+      window.location.href = 'https://worm-advance-v-1-6.vercel.app/login';
     }
   };
 
