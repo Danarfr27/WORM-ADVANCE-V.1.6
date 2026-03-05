@@ -140,11 +140,12 @@ const ChatInterface = () => {
   };
 
   const handleLogout = async () => {
-    const success = await logout();
-    if (success) {
+    try {
+      const success = await logout();
       window.location.href = '/login.html';
-    } else {
-      alert('Logout gagal!');
+      // Jika ingin menampilkan pesan error, bisa gunakan toast atau alert sebelum redirect
+    } catch (e) {
+      window.location.href = '/login.html';
     }
   };
 
@@ -193,15 +194,14 @@ const ChatInterface = () => {
           >
             <History className="w-4 h-4" />
           </motion.button>
-          <motion.button
+          
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             className="cyber-btn p-2"
             title="Logout"
             onClick={handleLogout}
-          >
             <LogOut className="w-4 h-4" />
-          </motion.button>
+          
         </div>
       </div>
 
