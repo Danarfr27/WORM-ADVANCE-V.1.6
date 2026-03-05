@@ -392,30 +392,9 @@
       }
     }
 
-    /* Error shake */
-    .shake {
-      animation: shake .5s ease;
-    }
-
-    @keyframes shake {
-      10%, 90% { transform: translateX(-1px); }
-      20%, 80% { transform: translateX(2px); }
-      30%, 50%, 70% { transform: translateX(-4px); }
-      40%, 60% { transform: translateX(4px); }
-    }
-
-    .spinner {
-      width: 16px;
-      height: 16px;
-      border-radius: 50%;
-      border: 2px solid rgba(0, 255, 136, 0.2);
-      border-top-color: var(--neon-primary);
-      animation: spin .8s linear infinite;
-    }
-
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
+    /* Animasi login dihilangkan */
+    .shake { animation: none !important; }
+    .spinner { display: none !important; }
 
     /* Corner decorations */
     .corner-decoration {
@@ -570,16 +549,13 @@
 
       async function doLogin(username, password) {
         if (!username || !password) {
-          card.classList.remove('shake');
-          void card.offsetWidth;
-          card.classList.add('shake');
           showMessage('Enter username and password.', 'error');
           return;
         }
 
         loginBtn.disabled = true;
         const old = loginBtn.innerHTML;
-        loginBtn.innerHTML = '<span class="spinner" aria-hidden="true"></span> Authenticating...';
+        loginBtn.innerHTML = 'Authenticating...';
         showMessage('', '');
 
         try {
@@ -592,7 +568,6 @@
           }
         } catch (err) {
           console.error(err);
-          card.classList.remove('shake'); void card.offsetWidth; card.classList.add('shake');
           const text = err && err.message ? err.message : 'Invalid credentials.';
           showMessage(text, 'error');
         } finally {
@@ -626,7 +601,8 @@
         }
       }
 
-      requestAnimationFrame(() => { document.querySelector('.card-wrap').style.opacity = 1; });
+      // Hilangkan animasi fade-in card
+      document.querySelector('.card-wrap').style.opacity = 1;
     })();
   </script>
 </body>
