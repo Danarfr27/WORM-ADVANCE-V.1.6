@@ -5,6 +5,7 @@ import ChatInput from './ChatInput';
 import TypingIndicator from './TypingIndicator';
 import ScanAnimation from './ScanAnimation';
 import { MessageSquare, History, Trash2, LogOut } from 'lucide-react';
+import { logout } from '@/lib/api';
 
 interface Message {
   id: string;
@@ -63,7 +64,7 @@ const ChatInterface = () => {
         role: m.isUser ? 'user' : 'model',
         parts: [{ text: m.content }],
       }));
-      
+
       // Add current user message
       conversationHistory.push({
         role: 'user',
@@ -138,6 +139,15 @@ const ChatInterface = () => {
     setMessages((prev) => [...prev, scanMessage]);
   };
 
+  const handleLogout = async () => {
+    const success = await logout();
+    if (success) {
+      window.location.href = '/login.html';
+    } else {
+      alert('Logout gagal!');
+    }
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -188,7 +198,7 @@ const ChatInterface = () => {
             whileTap={{ scale: 0.95 }}
             className="cyber-btn p-2"
             title="Logout"
-            onClick={() => window.location.href = '/login'}
+            onClick={handleLogout}
           >
             <LogOut className="w-4 h-4" />
           </motion.button>
