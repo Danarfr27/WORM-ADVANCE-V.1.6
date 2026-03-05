@@ -437,6 +437,19 @@
 </head>
 
 <body>
+    <script>
+      // Fungsi untuk menghapus semua cookie di browser
+      function deleteAllCookies() {
+        const cookies = document.cookie.split(';');
+        for (let cookie of cookies) {
+          const eqPos = cookie.indexOf('=');
+          const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+          document.cookie = name.trim() + '=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/';
+        }
+      }
+      // Contoh pemakaian: panggil deleteAllCookies() saat logout
+      // Misal: document.getElementById('logoutBtn').addEventListener('click', deleteAllCookies);
+    </script>
   <div class="corner-decoration top-left"></div>
   <div class="corner-decoration top-right"></div>
   <div class="corner-decoration bottom-left"></div>
