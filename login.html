@@ -561,8 +561,8 @@
         try {
           const result = await auth.login(username, password);
           if (result && result.ok) {
-            showMessage('Authentication successful. Redirecting...', 'success');
-            setTimeout(() => { window.location.href = '/login'; }, 700);
+            showMessage('Authentication successful.', 'success');
+            // Tidak ada redirect ke /index atau /login
           } else {
             throw result || new Error('Login failed');
           }
