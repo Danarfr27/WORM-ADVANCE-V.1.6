@@ -1,87 +1,253 @@
-<!doctype html>
-<html lang="en">
+<!-- perubahan index.html index html singgle file -versaagonon -->
+
+<!DOCTYPE html>
+<html lang="id">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description"
-    content="WORM AI - Cyber Intelligence Interface. Advanced AI assistant for cyber operations and intelligence gathering." />
-  <meta name="theme-color" content="#050505" />
-
-  <!-- Preconnect to Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-
-  <!-- Fonts -->
-  <link
-    href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Share+Tech+Mono&display=swap"
-    rel="stylesheet" />
-
-  <title>WORM AI - Cyber Intelligence Interface</title>
-
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WORM AI - V1.5</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
   <style>
-    /* Critical CSS for loading state */
     body {
+      background: #f7eded;
+      color: #00ff88;
+      font-family: 'Share Tech Mono', 'Orbitron', monospace, sans-serif;
       margin: 0;
-      padding: 0;
-      background: #050505;
-      color: #e0e0e0;
-      font-family: 'Share Tech Mono', monospace;
-    }
-
-    #root {
       min-height: 100vh;
+      overflow-x: hidden;
     }
-
-    /* Loading spinner */
-    .loading-spinner {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 60px;
-      height: 60px;
+    .main-title, .header h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 48px;
+      color: #00ff88;
+      text-shadow: 0 0 24px #00ff88, 0 0 48px #00ff88;
+      letter-spacing: 2px;
+      margin-bottom: 8px;
     }
-
-    .loading-spinner::before {
-      content: '';
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      background: #00ff88;
-      clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-      animation: spin 2s linear infinite;
+    .subtitle, .header p, .status-bar, .status-item, .chat-input, .input-area, .container, .header {
+      font-family: 'Share Tech Mono', monospace;
+      color: #00f0ff;
     }
-
-    .loading-spinner::after {
-      content: '';
-      position: absolute;
-      top: 10%;
-      left: 10%;
-      width: 80%;
-      height: 80%;
+    .container {
+      background: rgba(0,255,136,0.04);
+      border-radius: 18px;
+      box-shadow: 0 0 32px #00ff88;
+      margin: 32px auto;
+      padding: 32px 16px 16px 16px;
+      max-width: 900px;
+    }
+    .chat-container, .chat-log, .input-area {
+      background: rgba(0,255,136,0.06);
+      border-radius: 12px;
+      box-shadow: 0 0 16px #00ff8833;
+    }
+    .chat-input, textarea {
       background: #050505;
-      clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+      color: #00ff88;
+      border: 1px solid #00ff88;
+      border-radius: 8px;
+      font-size: 18px;
+      padding: 10px;
+      outline: none;
+      box-shadow: 0 0 8px #00ff8855;
     }
-
-    @keyframes spin {
-      to {
-        transform: rotate(360deg);
-      }
+    .send-btn {
+      background: linear-gradient(90deg, #00ff88, #00f0ff);
+      color: #050505;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      box-shadow: 0 0 12px #00ff88;
+      transition: background 0.2s;
+    }
+    .send-btn:hover {
+      background: linear-gradient(90deg, #00f0ff, #00ff88);
+    }
+    .status-dot {
+      background: #00ff88;
+      border-radius: 50%;
+      width: 12px;
+      height: 12px;
+      display: inline-block;
+      margin-right: 6px;
+      box-shadow: 0 0 8px #00ff88;
+    }
+    .particles {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      pointer-events: none;
+      z-index: 0;
+      background: radial-gradient(circle at 50% 40%, #00ff88 0%, transparent 60%);
+      opacity: 0.10;
+      filter: blur(32px);
+    }
+    .theme-toggle, .api-check-btn, .qr-btn, #logoutBtn, #clearHistoryBtn {
+      background: rgba(0,255,136,0.08);
+      color: #00ff88;
+      border: 1px solid #00ff8844;
+      border-radius: 8px;
+      box-shadow: 0 0 8px #00ff8844;
+      font-family: 'Share Tech Mono', monospace;
+      transition: background 0.2s, color 0.2s;
+    }
+    .theme-toggle:hover, .api-check-btn:hover, .qr-btn:hover, #logoutBtn:hover, #clearHistoryBtn:hover {
+      background: #00ff88;
+      color: #050505;
+    }
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      background: #050505;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #00ff88;
+      border-radius: 8px;
     }
   </style>
-  <script type="module" crossorigin src="./assets/main-BURkuPa8.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/main-hj5cgeNY.css">
 </head>
 
-<body>
-  <div id="root">
-    <!-- Fallback loading state -->
-    <div class="loading-spinner"></div>
-  </div>
-  <!-- Authentication -->
+<body data-theme="dark" style="display:none">
   <script src="/js/auth.js"></script>
   <script src="/js/auth-guard.js"></script>
+
+  <!-- Main logic -->
+  <script type="module" src="/js/app.js"></script>
+
+  <!-- Background particles -->
+  <div class="particles" id="particles"></div>
+  <!-- Top-left history dropdown -->
+  <div class="history-dropdown" id="historyDropdown">
+    <button id="historyDropdownBtn" class="theme-toggle" aria-expanded="false">Obrolan ▾</button>
+    <div id="historyDropdownList" class="history-dropdown-list" aria-label="Daftar obrolan"></div>
+  </div>
+
+
+  <!-- Top-right controls (theme + portfolio) -->
+  <div class="top-controls">
+    <!-- API Check (lock) Button -->
+    <button class="theme-toggle api-check-btn" id="apiCheckBtn" title="API Check"
+      style="width:36px;height:36px;padding:6px;margin-right:8px;border-radius:8px;display:flex;align-items:center;justify-content:center;"
+      onclick="window.open('https://apicheck-liart.vercel.app/','_blank')">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M12 1a5 5 0 00-5 5v3H5a2 2 0 00-2 2v8a2 2 0 002 2h14a2 2 0 002-2v-8a2 2 0 00-2-2h-2V6a5 5 0 00-5-5zm-3 8V6a3 3 0 116 0v3H9zM7 19v-6h10v6H7z" />
+      </svg>
+    </button>
+
+    <!-- Theme Toggle -->
+    <button class="theme-toggle" id="themeToggle">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+        <path
+          d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z" />
+      </svg>
+    </button>
+
+    <!-- QR Button -->
+    <button class="theme-toggle qr-btn" id="qrBtn" title="QR"
+      style="width:36px;height:36px;padding:6px;margin-left:8px;border-radius:8px;display:flex;align-items:center;justify-content:center;"
+      onclick="window.open('https://qr-firdhan.vercel.app/','_blank')">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path
+          d="M3 3h8v8H3zM5 5v4h4V5zM13 3h8v8h-8zM15 5v4h4V5zM3 13h8v8H3zM5 15v4h4v-4zM11 11h2v2h-2zM17 13h2v2h-2zM11 17h2v2h-2zM17 17h2v2h-2z" />
+      </svg>
+    </button>
+
+    <!-- Logout -->
+    <button class="theme-toggle" id="logoutBtn" title="Logout" style="margin-left:8px;">OUT</button>
+    <button class="theme-toggle" id="clearHistoryBtn" title="Clear history" style="margin-left:8px;">EndChat</button>
+  </div>
+
+  <!-- Main Container -->
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <h1 class="main-title">WORM AI</h1>
+      <div class="header-portfolio">
+        </a>
+      </div>
+      <p class="subtitle">Tools V1.6</p>
+    </div>
+
+    <!-- Status Bar -->
+    <div class="status-bar">
+      <div class="status-item">
+        <div class="status-dot"></div>
+        <span>Status: <strong>Online</strong></span>
+        <span>Model Ai: <strong>WormGpt V1.6</strong></span>
+      </div>
+      <div class="status-item">
+        <span>Memory: <strong>Active</strong></span>
+      </div>
+    </div>
+
+    <!-- Chat Container -->
+    <div class="chat-container">
+      <!-- Chat Log -->
+      <div class="chat-log" id="chatLog"></div>
+
+      <!-- Typing Indicator -->
+      <div class="typing-indicator" id="typingIndicator">
+        <div class="typing-animation">
+          <div class="typing-dot"></div>
+          <div class="typing-dot"></div>
+          <div class="typing-dot"></div>
+        </div>
+      </div>
+
+      <!-- Input Area -->
+      <div class="input-area">
+        <div class="input-wrapper">
+          <textarea class="chat-input" id="chatInput" placeholder="Apa yang ingin anda tanyakan..." autocomplete="off"
+            rows="1"></textarea>
+        </div>
+        <button class="send-btn" id="sendBtn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Image generation modal -->
+  <div id="imageModal"
+    style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:2000;align-items:center;justify-content:center;padding:20px;">
+    <div
+      style="background:var(--bg-card);border-radius:12px;padding:18px;max-width:720px;width:100%;box-shadow:var(--shadow);">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+        <strong>Generate Image</strong>
+        <button id="closeImageModal" class="theme-toggle" style="padding:6px 10px;">Close</button>
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px;">
+        <input id="imagePrompt"
+          placeholder="Tuliskan deskripsi gambar (contoh: pemandangan pegunungan saat matahari terbenam)"
+          style="flex:1;padding:10px;border-radius:8px;border:1px solid var(--border-color);background:var(--bg-card-light);color:var(--text-primary);">
+        <input id="imageModel" list="modelSuggestions" placeholder="gemini-2.5-flash-image (optional)"
+          style="width:260px;padding:10px;border-radius:8px;border:1px solid var(--border-color);background:var(--bg-card-light);color:var(--text-primary);">
+        <datalist id="modelSuggestions">
+          <option value="gemini-2.5-flash-image"></option>
+          <option value="gemini-1.5-image"></option>
+          <option value="gpt-image-1"></option>
+        </datalist>
+        <select id="imageSize"
+          style="width:140px;padding:10px;border-radius:8px;border:1px solid var(--border-color);background:var(--bg-card-light);color:var(--text-primary);">
+          <option value="512x512">512x512</option>
+          <option value="768x768">768x768</option>
+          <option value="1024x1024" selected>1024x1024</option>
+        </select>
+        <button id="generateImageBtn" class="send-btn" style="padding:10px 14px;height:auto;">Generate</button>
+      </div>
+      <div id="imageProgress" style="margin-bottom:10px;color:var(--text-secondary);display:none;">Generating...</div>
+      <div id="imageResults" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;">
+      </div>
+    </div>
+  </div>
+
+  <!-- Notification -->
+  <div class="notification" id="notification">Text copied successfully!</div>
+
+  <script src="/js/image.js"></script>
+  <script src="/js/app.js"></script>
 </body>
 
 </html>
