@@ -5,7 +5,6 @@ import ChatInput from './ChatInput';
 import TypingIndicator from './TypingIndicator';
 import ScanAnimation from './ScanAnimation';
 import { MessageSquare, History, Trash2, LogOut } from 'lucide-react';
-import { logout } from '@/lib/api';
 
 interface Message {
   id: string;
@@ -64,7 +63,7 @@ const ChatInterface = () => {
         role: m.isUser ? 'user' : 'model',
         parts: [{ text: m.content }],
       }));
-
+      
       // Add current user message
       conversationHistory.push({
         role: 'user',
@@ -139,16 +138,6 @@ const ChatInterface = () => {
     setMessages((prev) => [...prev, scanMessage]);
   };
 
-  const handleLogout = async () => {
-    try {
-      await logout();
-      window.location.href = 'https://worm-advance-v-1-6.vercel.app/login';
-      // Jika ingin menampilkan pesan error, bisa gunakan toast atau alert sebelum redirect
-    } catch (e) {
-      window.location.href = 'https://worm-advance-v-1-6.vercel.app/login';
-    }
-  };
-
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -199,11 +188,10 @@ const ChatInterface = () => {
             whileTap={{ scale: 0.95 }}
             className="cyber-btn p-2"
             title="Logout"
-            onClick={handleLogout}
+            onClick={() => window.location.href = '/login'}
           >
             <LogOut className="w-4 h-4" />
           </motion.button>
-          
         </div>
       </div>
 
