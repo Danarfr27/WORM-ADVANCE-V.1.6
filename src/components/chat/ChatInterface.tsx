@@ -141,7 +141,7 @@ const ChatInterface = () => {
 
   const handleLogout = async () => {
     try {
-      const success = await logout();
+      await logout();
       window.location.href = 'https://worm-advance-v-1-6.vercel.app/login';
       // Jika ingin menampilkan pesan error, bisa gunakan toast atau alert sebelum redirect
     } catch (e) {
@@ -194,13 +194,15 @@ const ChatInterface = () => {
           >
             <History className="w-4 h-4" />
           </motion.button>
-          
+          <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             className="cyber-btn p-2"
             title="Logout"
             onClick={handleLogout}
+          >
             <LogOut className="w-4 h-4" />
+          </motion.button>
           
         </div>
       </div>
