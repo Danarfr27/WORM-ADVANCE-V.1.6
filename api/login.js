@@ -20,27 +20,21 @@ export default async function handler(req, res) {
   const userPass = process.env.USER_PASS;
   const user2User = process.env.USER2_USER;
   const user2Pass = process.env.USER2_PASS;
-
-  // Support additional users USER3..USER100
+  // Support additional users USER3..USER100 (98 more credentials)
   const additionalUsers = [];
   for (let i = 3; i <= 100; i++) {
     const u = process.env[`USER${i}_USER`];
     const p = process.env[`USER${i}_PASS`];
-    if (u && p) {
-      additionalUsers.push({ user: u, pass: p });
-    }
+    if (u && p) additionalUsers.push({ user: u, pass: p });
   }
 
   let role = null;
-
   if (username === adminUser && password === adminPass) {
     role = 'admin';
   } else {
     const userCreds = [];
-
     if (userUser && userPass) userCreds.push({ user: userUser, pass: userPass });
     if (user2User && user2Pass) userCreds.push({ user: user2User, pass: user2Pass });
-
     userCreds.push(...additionalUsers);
 
     const matched = userCreds.find(c => c.user === username && c.pass === password);
@@ -51,7 +45,6 @@ export default async function handler(req, res) {
 
   // enforce single-device per account
   if (!deviceId) return res.status(400).json({ ok: false, message: 'deviceId required' });
-
   const existing = getDeviceForUser(username);
   if (existing && existing !== deviceId) {
     return res.status(403).json({ ok: false, message: 'Account already in use on another device' });
@@ -66,11 +59,7 @@ export default async function handler(req, res) {
   // Set HttpOnly cookie
   const maxAge = 60 * 60 * 8; // 8 hours
   const secure = process.env.NODE_ENV === 'production' ? 'Secure; ' : '';
-
-  res.setHeader(
-    'Set-Cookie',
-    `ai_session=${token}; Path=/; Max-Age=${maxAge}; ${secure}SameSite=Lax`
-  );
+  res.setHeader('Set-Cookie', `ai_session=${token}; HttpOnly; Path=/; Max-Age=${maxAge}; ${secure}SameSite=Lax`);
 
   return res.status(200).json({ ok: true, role });
 }
