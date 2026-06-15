@@ -1,0 +1,26 @@
+{
+  "version": 2,
+  "functions": {
+    "api/**": {
+      "maxDuration": 60
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/login",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/index",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/sw.js",
+      "destination": "/sw.js"
+    }
+  ]
+}
